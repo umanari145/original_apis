@@ -1,0 +1,51 @@
+version: "3"
+services:
+  o_apis_db:
+    container_name: o_apis_db
+    image: mysql:8.0
+    volumes:
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_DATABASE=homestead
+      - MYSQL_USER=homestead
+      - MYSQL_PASSWORD=secret
+      - MYSQL_ROOT_PASSWORD=secret
+      - TZ=Asia/Tokyo
+      - DB_PORT=3306
+    ports:
+      - "3306:3306"
+    networks:
+      - o_apis_nw      
+
+  o_apis_pmd:
+    image: phpmyadmin
+    container_name: o_apis_pmd
+    depends_on:
+      - o_apis_db
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=o_apis_db
+      - PMA_USER=root
+      - PMA_PASSWORD=secret
+    ports:
+      - "8080:80"
+    networks:
+      - o_apis_nw
+
+  o_apis_srv:
+    container_name: o_apis_srv
+    image: node:latest
+    ports:
+      - 3000:3000
+      - 6006:6006
+    tty: true
+    volumes:
+      - ./service:/app
+    networks:
+      - o_apis_nw
+
+networks:
+  o_apis_nw:
+    driver: bridge    
+
