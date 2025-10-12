@@ -87,4 +87,30 @@ npm notice To update run: npm install -g npm@11.6.2
 npm notice
 
 ```
-＊ ２回目以降は前回との差分のmigrationファイルが作られる
+＊ ２回目以降は前回との差分のmigrationファイルが作られる<br>
+
+参考リンク<br>
+https://qiita.com/quesman011/items/4546093f636865bf42c2<br>
+https://zenn.dev/manase/scraps/2377eb089cb695
+
+## seeding
+市区町村データをサンプルで入れる
+```
+npm run seed:cities            
+
+> seed:cities
+> ts-node seed/importCities.ts
+
+🚀 Starting cities data import...
+📁 File size: 22.42 MB
+📖 Reading CSV file...
+🔄 Parsing CSV data...
+🔧 Transforming data...
+📊 Found 126340 city records to import
+🗑️  Deleting existing data...
+💾 Inserting data in 127 batches...
+📈 Progress: 100.0% (119418/126340 records)
+
+✅ Successfully imported 119418 city records
+📈 Total city records in database: 119418
+```
