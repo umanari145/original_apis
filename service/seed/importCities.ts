@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 interface CityData {
   zip_code: string;
   pref_code: string;
+  pref_name: string;
   pref_kana: string;
   pref_roma: string;
   city_code: string;
@@ -52,15 +53,16 @@ async function importCities() {
     const cityData: CityData[] = parseResult.data.map((row) => ({
       zip_code: row[0]?.replace(/"/g, '') || '',
       pref_code: row[1]?.replace(/"/g, '') || '',
-      pref_kana: row[2]?.replace(/"/g, '') || '',
-      pref_roma: row[3]?.replace(/"/g, '') || '',
-      city_code: row[4]?.replace(/"/g, '') || '',
-      city_name: row[5]?.replace(/"/g, '') || '',
-      city_kana: row[6]?.replace(/"/g, '') || '',
-      city_roma: row[7]?.replace(/"/g, '') || '',
-      town_name: row[8]?.replace(/"/g, '') || '',
-      town_kana: row[9]?.replace(/"/g, '') || '',
-      town_roma: row[10]?.replace(/"/g, '') || '',
+      pref_name: row[2]?.replace(/"/g, '') || '',
+      pref_kana: row[3]?.replace(/"/g, '') || '',
+      pref_roma: row[4]?.replace(/"/g, '') || '',
+      city_code: row[5]?.replace(/"/g, '') || '',
+      city_name: row[6]?.replace(/"/g, '') || '',
+      city_kana: row[7]?.replace(/"/g, '') || '',
+      city_roma: row[8]?.replace(/"/g, '') || '',
+      town_name: row[9]?.replace(/"/g, '') || '',
+      town_kana: row[10]?.replace(/"/g, '') || '',
+      town_roma: row[11]?.replace(/"/g, '') || '',
     }));
 
     console.log(`📊 Found ${cityData.length} city records to import`);

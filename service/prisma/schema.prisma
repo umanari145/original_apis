@@ -25,6 +25,7 @@ model pref {
 model city {
   zip_code   String
   pref_code  String
+  pref_name  String
   pref_kana  String
   pref_roma  String
   city_code  String
