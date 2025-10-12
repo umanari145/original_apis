@@ -1,6 +1,7 @@
 # original_apis
 
 ## 都道府県API
+![API仕様](service/src/docs/PREFECTURE_API.md)
 
 ### prisma
 install
@@ -88,6 +89,8 @@ npm notice
 
 ```
 ＊ ２回目以降は前回との差分のmigrationファイルが作られる<br>
+--name ****がない場合、適用のみが走る
+
 
 参考リンク<br>
 https://qiita.com/quesman011/items/4546093f636865bf42c2<br>
