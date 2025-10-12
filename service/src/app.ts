@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import { notFoundHandler, errorHandler } from './middleware/errorHandler';
 
 // ルーターのインポート
+import router from './routes/api';
 //import cityRoutes from './routes/city';
 //import userRoutes from './routes/userRoutes';
 
@@ -34,6 +35,7 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // APIルーティング
+app.use('/api/prefs', router);
 //app.use('/api/cities', cityRoutes);
 //app.use('/api/users', userRoutes);
 // ルートエンドポイント
@@ -43,6 +45,7 @@ app.get('/', (req: Request, res: Response) => {
     version: '1.0.0',
     endpoints: {
       health: '/health',
+      prefs: '/api/prefs',
       //cities: '/api/cities',
       //users: '/api/users'
     }
