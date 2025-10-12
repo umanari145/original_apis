@@ -14,12 +14,14 @@
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
+    "lodash": "^4.17.21",
     "morgan": "^1.10.1",
     "papaparse": "^5.5.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/lodash": "^4.17.20",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.7.2",
     "@types/papaparse": "^5.3.16",

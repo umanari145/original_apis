@@ -19,12 +19,21 @@ router.get('/prefs', prefController.getAllPrefs);
 router.get('/prefs/:prefCode', prefController.getPrefByCode);
 
 /**
- * @route   GET /api/city/zip/:zipCode
- * @desc    郵便番号で市区町村を取得
- * @param   zipCode: 郵便番号（7桁）
+ * @route   GET /api/zip/:zipCode
+ * @desc    都道府県コードから市区町村を取得
+ * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
-router.get('/city/zip/:zipCode', cityController.getCityByZipCode);
+ router.get('/city/zip/:zipCode', cityController.getCityByZipCode);
+
+
+ /**
+ * @route   GET /api/cities/pref:prefCode
+ * @desc    都道府県コードから市区町村を取得
+ * @param   prefCode: 都道府県コード（2桁）
+ * @access  Public
+ */
+router.get('/cities/pref/:prefCode', cityController.getCitiesByPrefCode);
 
 /**
  * @route   GET /api/town/:cityCode
@@ -32,5 +41,5 @@ router.get('/city/zip/:zipCode', cityController.getCityByZipCode);
  * @param   zipCode: 郵便番号（7桁）
  * @access  Public
  */
- router.get('/town/:cityCode', cityController.getTownsByCityCode);
+ router.get('/town/city/:cityCode', cityController.getTownsByCityCode);
 export default router;

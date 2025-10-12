@@ -2,6 +2,40 @@ import { Request, Response, NextFunction } from 'express';
 import * as cityService from '../services/cityService';
 import { AppError } from '../middleware/errorHandler';
 
+
+/**
+ * GET /api/cities/:prefCode
+ * 都道府県コードに合致した市区町村を取得
+ */
+ export const getCitiesByPrefCode = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { prefCode } = req.params;
+
+    const prefCodeNum = parseInt(prefCode)
+    if (isNaN(prefCodeNum) || prefCodeNum < 1 || prefCodeNum > 47) {
+      throw new AppError('Invalid Pref code', 400);
+    }
+
+    const formattedPrefCode = prefCode.padStart(2, '0');
+
+    const cities = await cityService.getCitiesByPrefCode(
+      formattedPrefCode
+    );
+
+    res.status(200).json({
+      success: true,
+      count: 0,
+      data: cities,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 /**
  * GET /api/town/:cityCode
  * 都道府県コードに合致した市区町村を取得
@@ -25,7 +59,6 @@ export const getTownsByCityCode = async (
       formattedCityCode
     );
 
-    console.log(cities)
     if (cities.length === 0) {
       throw new AppError(
         `No cities found for prefecture  city code ${formattedCityCode}`, 

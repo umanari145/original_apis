@@ -1,6 +1,51 @@
-import { PrismaClient } from '../../generated/prisma';
-
+import { city, PrismaClient } from '../../generated/prisma';
+import _ from 'lodash';
 const prisma = new PrismaClient();
+
+
+/**
+ * 都道府県コードで市区町村を取得
+ */
+ export const getCitiesByPrefCode = async (
+  prefCode: string
+  ) => {
+  try {
+
+    const cities = await prisma.city.findMany({
+      where: {
+        pref_code: prefCode
+      },
+      orderBy: [
+        {
+          city_code: 'asc',
+        },
+        {
+          zip_code: 'asc',
+        },
+      ],
+    });
+    const groupedCities = _.groupBy(cities, 'city_code');
+    
+    // city_codeごとにグループ化したデータを配列形式に変換
+    const result = Object.entries(groupedCities).map(([cityCode, cityData]) => ({
+      city_code: cityCode,
+      city_name: cityData[0].city_name,
+      city_kana: cityData[0].city_kana,
+      city_roma: cityData[0].city_roma,
+      towns: cityData.map(city => ({
+        zip_code: city.zip_code,
+        town_name: city.town_name,
+        town_kana: city.town_kana,
+        town_roma: city.town_roma,
+      }))
+    }));
+    
+    return result;
+  } catch (error) {
+    console.error('Error fetching cities by pref code:', error);
+    throw error;
+  }
+};
 
 /**
  * 都道府県コードで市区町村を取得
@@ -9,7 +54,7 @@ export const getTownByCityCode = async (
   cityCode: string
   ) => {
   try {
-    console.log(cityCode)
+
     const cities = await prisma.city.findMany({
       where: {
         city_code: cityCode
