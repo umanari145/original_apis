@@ -12,7 +12,7 @@ interface PrefData {
   pref_roma: string;
 }
 
-async function importPrefs() {
+export async function importPrefs() {
   try {
     console.log('🚀 Starting prefectures data import...');
 
@@ -75,14 +75,3 @@ async function importPrefs() {
     await prisma.$disconnect();
   }
 }
-
-// スクリプトの実行
-importPrefs()
-  .then(() => {
-    console.log('\n🎉 Import completed successfully!');
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error('\n💥 Import failed:', error);
-    process.exit(1);
-  });

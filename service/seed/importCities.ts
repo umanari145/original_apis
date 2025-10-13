@@ -20,12 +20,13 @@ interface CityData {
   town_roma: string;
 }
 
-async function importCities() {
+export async function importCities(isTest:boolean = false) {
   try {
     console.log('🚀 Starting cities data import...');
 
+    const fileName = (isTest) ? 'test_cities.csv' : 'cities.csv' ;
     // CSVファイルのパス
-    const csvFilePath = path.join(__dirname, 'cities.csv');
+    const csvFilePath = path.join(__dirname, fileName);
 
     // ファイルサイズの確認
     const stats = fs.statSync(csvFilePath);
@@ -134,14 +135,3 @@ async function importCities() {
     await prisma.$disconnect();
   }
 }
-
-// スクリプトの実行
-importCities()
-  .then(() => {
-    console.log('\n🎉 Import completed successfully!');
-    process.exit(0);
-  })
-  .catch((error) => {
-    console.error('\n💥 Import failed:', error);
-    process.exit(1);
-  });

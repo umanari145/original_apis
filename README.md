@@ -153,3 +153,13 @@ Time:        3.316 s
 Ran all test suites.
 テスト終了: DB接続をクローズします
 ```
+
+ファイル構成
+```
+├── helpers
+│   └── db.ts helper 削除処理
+├── jest.setup.ts 関数ごとの処理
+├── pref.test.ts 実際のテスト
+├── setup.ts 全処理開始時
+└── teardown.ts　全処理終了時
+```

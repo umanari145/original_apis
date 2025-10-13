@@ -1,10 +1,12 @@
 import { PrismaClient } from '../generated/prisma';
 import { execSync } from 'child_process';
 import * as path from 'path';
+import { importPrefs } from './importPrefs';
+import { importCities } from './importCities';
 
 const prisma = new PrismaClient();
 
-async function seedAll() {
+export async function seedAll() {
   try {
     console.log('🌱 Starting database seeding...\n');
 
@@ -17,21 +19,34 @@ async function seedAll() {
     console.log('=' .repeat(60));
     console.log('1️⃣  Importing Prefectures Data');
     console.log('=' .repeat(60));
-    execSync('npx ts-node seed/importPrefs.ts', { 
-      stdio: 'inherit',
-      cwd: path.join(__dirname, '..')
-    });
 
+    await importPrefs()
+      .then(() => {
+        console.log('\n🎉 Import completed successfully!');
+      })
+      .catch((error) => {
+        console.error('\n💥 Import failed:', error);
+        process.exit(1);
+      });
+  
     console.log('\n');
 
     // 2. 市区町村データのインポート
     console.log('=' .repeat(60));
     console.log('2️⃣  Importing Cities Data');
     console.log('=' .repeat(60));
-    execSync('npx ts-node seed/importCities.ts', { 
-      stdio: 'inherit',
-      cwd: path.join(__dirname, '..')
-    });
+
+    // スクリプトの実行
+    await importCities()
+      .then(() => {
+        console.log('\n🎉 Import completed successfully!');
+      })
+      .catch((error) => {
+        console.error('\n💥 Import failed:', error);
+        process.exit(1);
+      });
+
+
 
     console.log('\n');
 

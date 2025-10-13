@@ -4,9 +4,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "test": "jest",
-    "seed": "ts-node seed/seedAll.ts",
-    "seed:prefs": "ts-node seed/importPrefs.ts",
-    "seed:cities": "ts-node seed/importCities.ts"
+    "seed": "ts-node seed/seedAll.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.17.1",
