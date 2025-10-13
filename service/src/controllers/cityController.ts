@@ -4,7 +4,7 @@ import { AppError } from '../middleware/errorHandler';
 
 
 /**
- * GET /api/cities/:prefCode
+ * GET /api/cities/pref/:prefCode
  * 都道府県コードに合致した市区町村を取得
  */
  export const getCitiesByPrefCode = async (

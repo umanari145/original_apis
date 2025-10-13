@@ -19,12 +19,12 @@ router.get('/prefs', prefController.getAllPrefs);
 router.get('/prefs/:prefCode', prefController.getPrefByCode);
 
 /**
- * @route   GET /api/zip/:zipCode
+ * @route   GET /api/town/zip/:zipCode
  * @desc    都道府県コードから市区町村を取得
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
- router.get('/city/zip/:zipCode', cityController.getCityByZipCode);
+ router.get('/town/zip/:zipCode', cityController.getCityByZipCode);
 
 
  /**

@@ -154,6 +154,26 @@ Ran all test suites.
 テスト終了: DB接続をクローズします
 ```
 
+特定ファイル
+
+```
+npm run test tests/controllers/city.test.ts 
+
+PASS  tests/controllers/city.test.ts
+  Prefecture City API Endpoints
+    GET /api/cities/pref/:prefCode
+      ✓ 都道府県の市区町村を取得（200 OK） (338 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        3.04 s
+Ran all test suites matching tests/controllers/city.test.ts.
+テスト終了: DB接続をクローズします
+
+
+```
+
 ファイル構成
 ```
 ├── helpers
@@ -163,3 +183,7 @@ Ran all test suites.
 ├── setup.ts 全処理開始時
 └── teardown.ts　全処理終了時
 ```
+
+
+### jestの設定について
+https://zenn.dev/eijijii/scraps/22a20bfe7f4da9
