@@ -117,3 +117,39 @@ npm run seed:cities
 ✅ Successfully imported 119418 city records
 📈 Total city records in database: 119418
 ```
+
+## jest
+
+install
+```
+# Jest本体とTypeScript対応
+npm install -D jest @types/jest ts-jest
+
+# supertest（HTTPリクエストテスト用）
+npm install -D supertest @types/supertest
+```
+
+test実行
+```
+ npm run test 
+
+> test
+> jest
+
+Determining test suites to run...テスト開始: DBマイグレーション実行
+・・・・・・・・・・・・
+GET /api/prefs/99 404 25.075 ms - 130
+ PASS  tests/pref.test.ts
+  Prefecture API Endpoints
+    GET /api/prefs
+      ✓ 全都道府県を取得できること（200 OK） (225 ms)
+      ✓ 有効な都道府県コードで都道府県を取得できること（200 OK） (129 ms)
+      ✓ 存在しない都道府県コードで404エラーが返ること (146 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       3 passed, 3 total
+Snapshots:   0 total
+Time:        3.316 s
+Ran all test suites.
+テスト終了: DB接続をクローズします
+```
