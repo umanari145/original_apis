@@ -91,7 +91,7 @@ npm notice
 ＊ ２回目以降は前回との差分のmigrationファイルが作られる<br>
 --name ****がない場合、適用のみが走る
 
-通常の適用は
+通常のスキーマ適用は
 ```
 npx prisma migrate dev
 ```
