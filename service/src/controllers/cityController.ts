@@ -90,7 +90,6 @@ export const getCityByZipCode = async (
     const { zipCode } = req.params;
 
     const cities = await cityService.getCityByZipCode(zipCode);
-
     if (cities.length === 0) {
       throw new AppError(`No cities found for zip code ${zipCode}`, 404);
     }
@@ -105,6 +104,36 @@ export const getCityByZipCode = async (
     next(error);
   }
 };
+
+export const getCitiesByWord = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { word } = req.params;
+
+    // 2文字以上の時のみ反応
+    if (word.length <= 1) {
+      throw new AppError(`word length is better then two ${word}`, 400);
+    }
+
+    const towns = await cityService.getCitiesByWord(word);
+    if (towns.length === 0) {
+      throw new AppError(`No cities found for zip code ${word}`, 404);
+    }
+
+    res.status(200).json({
+      success: true,
+      count: towns.length,
+      word,
+      data: towns,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 
 /**
  * GET /api/cities

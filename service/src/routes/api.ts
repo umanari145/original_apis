@@ -36,10 +36,10 @@ router.get('/prefs/:prefCode', prefController.getPrefByCode);
 router.get('/cities/pref/:prefCode', cityController.getCitiesByPrefCode);
 
 /**
- * @route   GET /api/town/:cityCode
+ * @route   GET /api/towns/:word
  * @desc    郵便番号で市区町村を取得
- * @param   zipCode: 郵便番号（7桁）
+ * @param   word 任意の文字列
  * @access  Public
  */
- router.get('/town/city/:cityCode', cityController.getTownsByCityCode);
+ router.get('/towns/:word', cityController.getCitiesByWord);
 export default router;

@@ -1,7 +1,6 @@
-import { city, PrismaClient } from '../../generated/prisma';
+import { city } from '../../generated/prisma';
+import { prisma } from '../db/prismaOperator';
 import _ from 'lodash';
-const prisma = new PrismaClient();
-
 
 /**
  * 都道府県コードで市区町村を取得
@@ -86,6 +85,28 @@ export const getCityByZipCode = async (zipCode: string) => {
       },
     });
     return cities;
+  } catch (error) {
+    console.error('Error fetching city by zip code:', error);
+    throw error;
+  }
+};
+
+/**
+ * 郵便番号で市区町村を取得
+ */
+ export const getCitiesByWord = async (word: string) => {
+  try {
+    const towns = await prisma.city.findMany({
+      where: {
+        // 3つのフィールドのいずれかが word を含む
+        OR: [
+          { pref_name: { contains: word } },
+          { city_name: { contains: word } },
+          { town_name: { contains: word } },
+        ],
+      },
+    });
+    return towns;
   } catch (error) {
     console.error('Error fetching city by zip code:', error);
     throw error;

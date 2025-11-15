@@ -91,6 +91,10 @@ npm notice
 ＊ ２回目以降は前回との差分のmigrationファイルが作られる<br>
 --name ****がない場合、適用のみが走る
 
+通常の適用は
+```
+npx prisma migrate dev
+```
 
 参考リンク<br>
 https://qiita.com/quesman011/items/4546093f636865bf42c2<br>
@@ -98,6 +102,11 @@ https://zenn.dev/manase/scraps/2377eb089cb695
 
 ## seeding
 市区町村データをサンプルで入れる
+
+```
+npm run seed
+```
+
 ```
 npm run seed:cities            
 
