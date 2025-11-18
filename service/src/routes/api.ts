@@ -12,34 +12,44 @@ const router = Router();
 router.get('/prefs', prefController.getAllPrefs);
 
 /**
- * @route   GET /api/prefs/:prefCode
+ * @route   GET /api/pref/:prefCode
  * @desc    都道府県コードで都道府県を取得
  * @access  Public
  */
 router.get('/prefs/:prefCode', prefController.getPrefByCode);
 
 /**
- * @route   GET /api/town/zip/:zipCode
- * @desc    都道府県コードから市区町村を取得
+ * @route   GET /api/pref/:prefCode/cities
+ * @desc    都道府県に所属している市区町村が欲しい
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
- router.get('/town/zip/:zipCode', cityController.getCityByZipCode);
+ router.get('/prefs/:prefCode/cities', cityController.getCityByZipCode);
 
 
  /**
- * @route   GET /api/cities/pref:prefCode
- * @desc    都道府県コードから市区町村を取得
+ * @route   GET /api/cities/:cityCode
+ * @desc    特定の市区町村コードにある市が欲しい
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
-router.get('/cities/pref/:prefCode', cityController.getCitiesByPrefCode);
+  router.get('/cities/:cityCode', cityController.getCityByZipCode);
 
-/**
- * @route   GET /api/towns/:word
- * @desc    郵便番号で市区町村を取得
- * @param   word 任意の文字列
+ /**
+ * @route   GET /api/cities/:cityCode
+ * @desc    特定の市区町村のコードに所属している字
+ * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
- router.get('/towns/:word', cityController.getCitiesByWord);
+router.get('/cities/:cityCode/towns', cityController.getCitiesByPrefCode);
+
+ /**
+ * @route   GET /api/cities/pref:prefCode
+ * @desc    字を郵便番号やキーワードで字を検索
+ * @param   prefCode: 都道府県コード（2桁）
+ * @access  Public
+ */
+  router.get('/towns', cityController.getCitiesByPrefCode);
+
+
 export default router;
