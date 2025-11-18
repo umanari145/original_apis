@@ -24,7 +24,7 @@ router.get('/prefs/:prefCode', prefController.getPrefByCode);
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
- router.get('/prefs/:prefCode/cities', cityController.getCityByZipCode);
+ router.get('/prefs/:prefCode/cities', cityController.getCitiesByPrefCode);
 
 
  /**
@@ -33,7 +33,7 @@ router.get('/prefs/:prefCode', prefController.getPrefByCode);
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
-  router.get('/cities/:cityCode', cityController.getCityByZipCode);
+  router.get('/cities/:cityCode', cityController.getCityByCityCode);
 
  /**
  * @route   GET /api/cities/:cityCode

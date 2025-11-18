@@ -193,6 +193,36 @@ Ran all test suites matching tests/controllers/city.test.ts.
 └── teardown.ts　全処理終了時
 ```
 
+下記が１ケースだがdescribe.onlyで他をskipできる
+```
+  describe.only('GET /api/town/city/:CityCode', () => {
+    
+    it('市区町村コードから字を取得（200 OK）', async () => {
+      const response = await request(app)
+        .get('/api/town/city/01102')
+        //.expect('Content-Type', /json/)
+        //.expect(200);
+        const town = response.body.data[0]
+        console.log(town)
+        expect(town).toEqual({
+          zip_code: '0010010',
+          pref_code: '01',
+          pref_name: '北海道',
+          pref_kana: 'ホッカイドウ',
+          pref_roma: 'HOKKAIDO',
+          city_code: '01102',
+          city_name: '札幌市北区',
+          city_kana: 'サッポロシキタク',
+          city_roma: 'SAPPORO SHI KITA KU',
+          town_name: '北十条西（１～４丁目）',
+          town_kana: 'キタ１０ジョウニシ（１－４チョウメ）',
+          town_roma: 'KITA10-JONISHI(1-4-CHOME)'
+        });
 
+    });
+  });
+
+
+```
 ### jestの設定について
 https://zenn.dev/eijijii/scraps/22a20bfe7f4da9
