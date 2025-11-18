@@ -14,7 +14,7 @@ interface PrefData {
 
 export async function importPrefs() {
   try {
-    console.log('🚀 Starting prefectures data import...');
+    //console.log('🚀 Starting prefectures data import...');
 
     // CSVファイルのパス
     const csvFilePath = path.join(__dirname, 'prefs.csv');
@@ -42,31 +42,24 @@ export async function importPrefs() {
       pref_roma: row[3].replace(/"/g, ''),
     }));
 
-    console.log(`📊 Found ${prefData.length} prefectures to import`);
+    //console.log(`📊 Found ${prefData.length} prefectures to import`);
 
     // 既存データの削除（オプション）
-    console.log('🗑️  Deleting existing data...');
+    //console.log('🗑️  Deleting existing data...');
     await prisma.pref.deleteMany({});
 
     // データの一括挿入
-    console.log('💾 Inserting prefecture data...');
+    //console.log('💾 Inserting prefecture data...');
     const result = await prisma.pref.createMany({
       data: prefData,
       skipDuplicates: true, // 重複をスキップ
     });
 
-    console.log(`✅ Successfully imported ${result.count} prefectures`);
+    //console.log(`✅ Successfully imported ${result.count} prefectures`);
 
     // 挿入されたデータの確認
     const totalCount = await prisma.pref.count();
-    console.log(`📈 Total prefectures in database: ${totalCount}`);
-
-    // サンプルデータの表示
-    const samplePrefs = await prisma.pref.findMany({
-      take: 5,
-    });
-    console.log('\n📋 Sample data:');
-    console.table(samplePrefs);
+    //console.log(`📈 Total prefectures in database: ${totalCount}`)
 
   } catch (error) {
     console.error('❌ Error during import:', error);

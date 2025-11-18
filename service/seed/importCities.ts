@@ -22,7 +22,7 @@ interface CityData {
 
 export async function importCities(isTest:boolean = false) {
   try {
-    console.log('🚀 Starting cities data import...');
+    //console.log('🚀 Starting cities data import...');
 
     const fileName = (isTest) ? 'test_cities.csv' : 'cities.csv' ;
     // CSVファイルのパス
@@ -30,14 +30,9 @@ export async function importCities(isTest:boolean = false) {
 
     // ファイルサイズの確認
     const stats = fs.statSync(csvFilePath);
-    console.log(`📁 File size: ${(stats.size / 1024 / 1024).toFixed(2)} MB`);
 
-    // CSVファイルの読み込み
-    console.log('📖 Reading CSV file...');
     const fileContent = fs.readFileSync(csvFilePath, 'utf-8');
 
-    // CSVのパース
-    console.log('🔄 Parsing CSV data...');
     const parseResult = Papa.parse<string[]>(fileContent, {
       header: false,
       skipEmptyLines: true,
@@ -50,7 +45,6 @@ export async function importCities(isTest:boolean = false) {
     }
 
     // データの変換
-    console.log('🔧 Transforming data...');
     const cityData: CityData[] = parseResult.data.map((row) => ({
       zip_code: row[0]?.replace(/"/g, '') || '',
       pref_code: row[1]?.replace(/"/g, '') || '',
@@ -66,10 +60,10 @@ export async function importCities(isTest:boolean = false) {
       town_roma: row[11]?.replace(/"/g, '') || '',
     }));
 
-    console.log(`📊 Found ${cityData.length} city records to import`);
+    //console.log(`📊 Found ${cityData.length} city records to import`);
 
     // 既存データの削除（オプション）
-    console.log('🗑️  Deleting existing data...');
+    //console.log('🗑️  Deleting existing data...');
     await prisma.city.deleteMany({});
 
     // データの一括挿入（バッチ処理）
@@ -77,7 +71,7 @@ export async function importCities(isTest:boolean = false) {
     const totalBatches = Math.ceil(cityData.length / batchSize);
     let totalInserted = 0;
 
-    console.log(`💾 Inserting data in ${totalBatches} batches...`);
+    //console.log(`💾 Inserting data in ${totalBatches} batches...`);
 
     for (let i = 0; i < totalBatches; i++) {
       const start = i * batchSize;
@@ -93,40 +87,15 @@ export async function importCities(isTest:boolean = false) {
 
       // 進捗表示
       const progress = ((i + 1) / totalBatches * 100).toFixed(1);
-      process.stdout.write(`\r📈 Progress: ${progress}% (${totalInserted}/${cityData.length} records)`);
+      //process.stdout.write(`\r📈 Progress: ${progress}% (${totalInserted}/${cityData.length} records)`);
     }
 
-    console.log('\n');
-    console.log(`✅ Successfully imported ${totalInserted} city records`);
+    //console.log('\n');
+    //console.log(`✅ Successfully imported ${totalInserted} city records`);
 
     // 挿入されたデータの確認
     const totalCount = await prisma.city.count();
-    console.log(`📈 Total city records in database: ${totalCount}`);
-
-    // サンプルデータの表示
-    const sampleCities = await prisma.city.findMany({
-      take: 5,
-    });
-    console.log('\n📋 Sample data:');
-    console.table(sampleCities);
-
-    // 都道府県別の統計
-    const prefStats = await prisma.city.groupBy({
-      by: ['pref_code'],
-      _count: {
-        pref_code: true,
-      },
-      orderBy: {
-        pref_code: 'asc',
-      },
-      take: 5,
-    });
-
-    console.log('\n📊 Records per prefecture (first 5):');
-    console.table(prefStats.map(stat => ({
-      pref_code: stat.pref_code,
-      count: stat._count.pref_code,
-    })));
+    //console.log(`📈 Total city records in database: ${totalCount}`);
 
   } catch (error) {
     console.error('❌ Error during import:', error);
