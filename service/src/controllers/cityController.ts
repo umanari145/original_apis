@@ -4,7 +4,7 @@ import { AppError } from '../middleware/errorHandler';
 
 
 /**
- * GET /api/cities/pref/:prefCode
+ * GET /api/cities/:prefCode/prefCode
  * 都道府県コードに合致した市区町村を取得
  */
  export const getCitiesByPrefCode = async (
@@ -35,6 +35,36 @@ import { AppError } from '../middleware/errorHandler';
     next(error);
   }
 };
+
+
+/**
+ * GET /api/cities/:cityCode
+ * 市区町村コードに合致した市区町村を取得
+ */
+/* export const getCityByCityCode = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { cityCode } = req.params;
+
+    if (cityCode.length < 5 || 6 < cityCode.length) {
+      throw new AppError('Invalid City code', 400);
+    }
+
+    const cities = await cityService.getCitiesByCityCode(cityCode);
+
+    res.status(200).json({
+      success: true,
+      count: 0,
+      data: cities,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+*/
 
 /**
  * GET /api/town/:cityCode

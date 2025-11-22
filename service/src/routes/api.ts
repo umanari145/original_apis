@@ -33,7 +33,7 @@ router.get('/prefs/:prefCode', prefController.getPrefByCode);
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
-  router.get('/cities/:cityCode', cityController.getCityByCityCode);
+//  router.get('/cities/:cityCode', cityController.getCityByCityCode);
 
  /**
  * @route   GET /api/cities/:cityCode
@@ -41,15 +41,15 @@ router.get('/prefs/:prefCode', prefController.getPrefByCode);
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
-router.get('/cities/:cityCode/towns', cityController.getCitiesByPrefCode);
+//router.get('/cities/:cityCode/towns', cityController.getCitiesByPrefCode);
 
  /**
  * @route   GET /api/cities/pref:prefCode
  * @desc    字を郵便番号やキーワードで字を検索
- * @param   prefCode: 都道府県コード（2桁）
+ * @query   zip &keyword
  * @access  Public
  */
-  router.get('/towns', cityController.getCitiesByPrefCode);
+//router.get('/towns', cityController.getCitiesByPrefCode);
 
 
 export default router;
