@@ -52,11 +52,11 @@ export const getCityByCityCode = async (
       throw new AppError('Invalid City code', 400);
     }
 
-    const cities = await cityService.getCitiesByCityCode(cityCode);
+    const city = await cityService.getCityByCityCode(cityCode);
 
     res.status(200).json({
       success: true,
-      data: cities,
+      data: city,
     });
   } catch (error) {
     next(error);

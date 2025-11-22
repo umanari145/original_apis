@@ -50,12 +50,11 @@ import _ from 'lodash';
 /**
  * 都道府県コードで市区町村を取得
  */
- export const getCitiesByCityCode = async (
+ export const getCityByCityCode = async (
   cityCode: string
   ) => {
   try {
-
-    const cities = await prisma.city.findMany({
+    const city = await prisma.city.findFirst({
       where: {
         city_code: cityCode
       },
@@ -68,7 +67,7 @@ import _ from 'lodash';
         },
       ],
     });
-    return cities;
+    return city;
   } catch (error) {
     console.error('Error fetching cities by pref code:', error);
     throw error;
