@@ -62,4 +62,49 @@ describe('Prefecture City API Endpoints', () => {
         expect(town.town_roma).toBe('KITA10-JONISHI(1-4-CHOME)');
     });
   });
+
+  describe('GET /api/towns?zip=0010010&word=北十条', () => {
+
+    it('郵便番号で取得（200 OK）', async () => {
+      const response = await request(app)
+        .get('/api/towns?zip=0010010')
+
+        expect(response.status).toBe(200);
+        expect(response.body.success).toBe(true);
+        const town = response.body.data[0]
+        expect(town.city_code).toBe('01102');
+        expect(town.town_kana).toBe('キタ１０ジョウニシ（１－４チョウメ）');
+        expect(town.town_name).toBe('北十条西（１～４丁目）');
+        expect(town.town_roma).toBe('KITA10-JONISHI(1-4-CHOME)');
+    }); 
+
+    it('キーワードで取得（200 OK）', async () => {
+      const response = await request(app)
+        .get('/api/towns?word=北十条西')
+
+        expect(response.status).toBe(200);
+        expect(response.body.success).toBe(true);
+        const town = response.body.data[0]
+        expect(town.city_code).toBe('01102');
+        expect(town.town_kana).toBe('キタ１０ジョウニシ（１－４チョウメ）');
+        expect(town.town_name).toBe('北十条西（１～４丁目）');
+        expect(town.town_roma).toBe('KITA10-JONISHI(1-4-CHOME)');
+    });
+
+    it('zip と word 両方未指定の場合、400を返す', async () => {
+      const response = await request(app)
+        .get('/api/towns');
+      expect(response.status).toBe(400);
+    })
+
+    it('該当する町が見つからない場合、404を返す', async () => {
+
+      const response = await request(app)
+        .get('/api/towns?zip=2740077')
+      expect(response.status).toBe(404);
+
+    });
+  
+  });
+
 });

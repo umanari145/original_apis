@@ -1,6 +1,7 @@
 import { city } from '../../generated/prisma';
 import { prisma } from '../db/prismaOperator';
 import _ from 'lodash';
+import { Prisma } from '@prisma/client';
 
 /**
  * 都道府県コードで市区町村を取得
@@ -122,48 +123,45 @@ export const getCityByZipCode = async (zipCode: string) => {
 /**
  * 郵便番号で市区町村を取得
  */
- export const getCitiesByWord = async (word: string) => {
+ export const getTownsByQuery = async (zip?:string, word?: string) => {
   try {
-    const towns = await prisma.city.findMany({
-      where: {
-        // 3つのフィールドのいずれかが word を含む
+
+    const whereConditions: any[] = [];
+
+    if (zip !== undefined) {
+      whereConditions.push({
+        zip_code: {
+          startsWith: zip
+        }
+      });
+    }
+  
+    if (word !== undefined) {
+      whereConditions.push({
         OR: [
           { pref_name: { contains: word } },
           { city_name: { contains: word } },
-          { town_name: { contains: word } },
-        ],
-      },
+          { town_name: { contains: word } }
+        ]
+      });
+    }
+  
+    const where = whereConditions.length > 0 
+      ? { AND: whereConditions }
+      : {};
+
+    const towns = await prisma.city.findMany({
+      where,
+      orderBy: [
+        { pref_name: 'asc' },
+        { city_name: 'asc' },
+        { town_name: 'asc' }
+      ]
     });
+  
     return towns;
   } catch (error) {
     console.error('Error fetching city by zip code:', error);
-    throw error;
-  }
-};
-
-/**
- * 全市区町村を取得（ページネーション対応）
- */
-export const getAllCities = async (skip: number = 0, take: number = 100) => {
-  try {
-    const [cities, total] = await Promise.all([
-      prisma.city.findMany({
-        skip,
-        take,
-        orderBy: [
-          {
-            pref_code: 'asc',
-          },
-          {
-            city_code: 'asc',
-          },
-        ],
-      }),
-      prisma.city.count(),
-    ]);
-    return { cities, total };
-  } catch (error) {
-    console.error('Error fetching all cities:', error);
     throw error;
   }
 };

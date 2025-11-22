@@ -3,12 +3,12 @@ import { importCities } from '../seed/importCities';
 import { importPrefs } from '../seed/importPrefs';
 import { prisma, resetDatabase } from './helpers/db';
 
-beforeEach(async () => {
+beforeAll(async () => {
   await resetDatabase();
 
   await importPrefs()
   .then(() => {
-    console.log('\n🎉 Import completed successfully!');
+    console.log('\n🎉 Import Prefs completed successfully!');
   })
   .catch((error) => {
     console.error('\n💥 Import failed:', error);
@@ -18,14 +18,16 @@ beforeEach(async () => {
   // スクリプトの実行
   await importCities(true)
   .then(() => {
-    console.log('\n🎉 Import completed successfully!');
+    console.log('\n🎉 Import Cities completed successfully!');
   })
   .catch((error) => {
     console.error('\n💥 Import failed:', error);
     process.exit(1);
   });
-});
+})
+
 
 afterAll(async () => {
+  await resetDatabase();
   await prisma.$disconnect();
 });

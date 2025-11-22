@@ -103,101 +103,52 @@ export const getTownsByCityCode = async (
   }
 };
 
+
+interface TownQueryParams {
+  zip?: string;
+  word?: string;
+}
+
 /**
- * GET /api/cities/zip/:zipCode
+ * GET /api/towns?zip=1001000&keyword=ああああ
  * 郵便番号で市区町村を取得
  */
-export const getCityByZipCode = async (
+export const getCityByQuery = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const { zipCode } = req.params;
 
-    const cities = await cityService.getCityByZipCode(zipCode);
-    if (cities.length === 0) {
-      throw new AppError(`No cities found for zip code ${zipCode}`, 404);
+    // 修正後のコード
+    let { zip, word } = req.query as TownQueryParams;
+
+    // 文字列型であることを保証（trimも適用）
+    const zipParam = typeof zip === 'string' ? zip.trim() : undefined;
+    const wordParam = typeof word === 'string' ? word.trim() : undefined;
+
+    // 両方ともない場合は400エラー
+    if (!zipParam && !wordParam) {
+      throw new AppError('検索パラメータ（zipまたはword）を指定してください', 400);
     }
 
-    res.status(200).json({
-      success: true,
-      count: cities.length,
-      zipCode,
-      data: cities,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getCitiesByWord = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { word } = req.params;
-
-    // 2文字以上の時のみ反応
-    if (word.length <= 1) {
-      throw new AppError(`word length is better then two ${word}`, 400);
+    // 空文字列チェック（trimの結果が空の場合も考慮）
+    if ((zipParam && zipParam.length === 0) && (wordParam && wordParam.length === 0)) {
+      throw new AppError('検索パラメータ（zipまたはword）を指定してください', 400);
     }
 
-    const towns = await cityService.getCitiesByWord(word);
+    const towns = await cityService.getTownsByQuery(zipParam, wordParam);
+
     if (towns.length === 0) {
-      throw new AppError(`No cities found for zip code ${word}`, 404);
+      throw new AppError(
+        `No towns found`, 
+        404
+      );
     }
 
     res.status(200).json({
       success: true,
-      count: towns.length,
-      word,
       data: towns,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-
-/**
- * GET /api/cities
- * 全市区町村を取得（ページネーション対応）
- */
-export const getAllCities = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 100;
-
-    // バリデーション
-    if (page < 1) {
-      throw new AppError('Page number must be greater than 0', 400);
-    }
-    if (limit < 1 || limit > 1000) {
-      throw new AppError('Limit must be between 1 and 1000', 400);
-    }
-
-    const skip = (page - 1) * limit;
-    const { cities, total } = await cityService.getAllCities(skip, limit);
-
-    const totalPages = Math.ceil(total / limit);
-
-    res.status(200).json({
-      success: true,
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages,
-        hasNext: page < totalPages,
-        hasPrev: page > 1,
-      },
-      data: cities,
     });
   } catch (error) {
     next(error);
