@@ -33,15 +33,15 @@ router.get('/prefs/:prefCode', prefController.getPrefByCode);
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
-//  router.get('/cities/:cityCode', cityController.getCityByCityCode);
+router.get('/cities/:cityCode', cityController.getCityByCityCode);
 
  /**
- * @route   GET /api/cities/:cityCode
+ * @route   GET /api/cities/:cityCode/towns
  * @desc    特定の市区町村のコードに所属している字
  * @param   prefCode: 都道府県コード（2桁）
  * @access  Public
  */
-//router.get('/cities/:cityCode/towns', cityController.getCitiesByPrefCode);
+router.get('/cities/:cityCode/towns', cityController.getTownsByCityCode);
 
  /**
  * @route   GET /api/cities/pref:prefCode

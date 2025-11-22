@@ -46,6 +46,35 @@ import _ from 'lodash';
   }
 };
 
+
+/**
+ * 都道府県コードで市区町村を取得
+ */
+ export const getCitiesByCityCode = async (
+  cityCode: string
+  ) => {
+  try {
+
+    const cities = await prisma.city.findMany({
+      where: {
+        city_code: cityCode
+      },
+      orderBy: [
+        {
+          city_code: 'asc',
+        },
+        {
+          zip_code: 'asc',
+        },
+      ],
+    });
+    return cities;
+  } catch (error) {
+    console.error('Error fetching cities by pref code:', error);
+    throw error;
+  }
+};
+
 /**
  * 都道府県コードで市区町村を取得
  */

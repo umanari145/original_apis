@@ -28,7 +28,6 @@ import { AppError } from '../middleware/errorHandler';
 
     res.status(200).json({
       success: true,
-      count: 0,
       data: cities,
     });
   } catch (error) {
@@ -41,7 +40,7 @@ import { AppError } from '../middleware/errorHandler';
  * GET /api/cities/:cityCode
  * 市区町村コードに合致した市区町村を取得
  */
-/* export const getCityByCityCode = async (
+export const getCityByCityCode = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -57,17 +56,15 @@ import { AppError } from '../middleware/errorHandler';
 
     res.status(200).json({
       success: true,
-      count: 0,
       data: cities,
     });
   } catch (error) {
     next(error);
   }
 };
-*/
 
 /**
- * GET /api/town/:cityCode
+ * GET /api/cities/:cityCode/towns
  * 都道府県コードに合致した市区町村を取得
  */
 export const getTownsByCityCode = async (
@@ -85,11 +82,11 @@ export const getTownsByCityCode = async (
 
     const formattedCityCode = cityCode.padStart(5, '0');
 
-    const cities = await cityService.getTownByCityCode(
+    const towns = await cityService.getTownByCityCode(
       formattedCityCode
     );
 
-    if (cities.length === 0) {
+    if (towns.length === 0) {
       throw new AppError(
         `No cities found for prefecture  city code ${formattedCityCode}`, 
         404
@@ -98,9 +95,8 @@ export const getTownsByCityCode = async (
 
     res.status(200).json({
       success: true,
-      count: cities.length,
       cityCode: formattedCityCode,
-      data: cities,
+      data: towns,
     });
   } catch (error) {
     next(error);
