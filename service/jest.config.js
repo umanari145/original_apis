@@ -16,7 +16,7 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
+  setupFilesAfterEnv: ['<rootDir>/tests/jest.setup.ts'],
   testTimeout: 10000,
   verbose: true,
   // テストより前に1回だけ実行（DB接続、マイグレーション等）

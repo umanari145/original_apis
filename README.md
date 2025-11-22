@@ -193,7 +193,7 @@ Ran all test suites matching tests/controllers/city.test.ts.
 └── teardown.ts　全処理終了時
 ```
 
-下記が１ケースだがdescribe.onlyで他をskipできる
+下記が１ケースだがdescribe.onlyで他をskipできる(describeの中に複数のitがある場合はit.only)
 ```
   describe.only('GET /api/town/city/:CityCode', () => {
     
@@ -226,3 +226,13 @@ Ran all test suites matching tests/controllers/city.test.ts.
 ```
 ### jestの設定について
 https://zenn.dev/eijijii/scraps/22a20bfe7f4da9
+
+
+### jestの並列性
+jestは効率アップのために複数のテストを並列に実行する。<br>
+例えば、一括で`npm run test`をすると`service/tests/controllers/city.test.ts`と`service/tests/controllers/pref.test.ts`の実行を平行に行う。
+<br><br>
+そのためDBの状態がコンフリクトを起こしてテスト結果のたびに結果が異なる。<br>
+(1ファイルごとであれば大丈夫。)<br>
+そのため、直列に逐次実行させたい場合は以下のオプションを入れる(package.json参照)<br>
+"jest --runInBand",
