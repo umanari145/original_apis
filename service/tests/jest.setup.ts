@@ -3,7 +3,7 @@ import { importCities } from '../seed/importCities';
 import { importPrefs } from '../seed/importPrefs';
 import { prisma, resetDatabase } from './helpers/db';
 
-beforeAll(async () => {
+beforeEach(async () => {
   await resetDatabase();
 
   await importPrefs()
