@@ -236,3 +236,13 @@ jestは効率アップのために複数のテストを並列に実行する。<
 (1ファイルごとであれば大丈夫。)<br>
 そのため、直列に逐次実行させたい場合は以下のオプションを入れる(package.json参照)<br>
 "jest --runInBand",
+
+
+### debian系へのlastesのnodeのインストール
+```
+sudo apt install -y nodejs npm
+
+sudo npm install n -g
+
+sudo n stable
+```
