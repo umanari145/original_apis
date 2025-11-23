@@ -21,6 +21,7 @@ services:
   o_apis_srv:
     container_name: o_apis_srv
     image: node:latest
+    working_dir: /app
     ports:
       - 3000:3000
       - 6006:6006
