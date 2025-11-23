@@ -1,0 +1,11 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo "Building front..."
+# ここに設定するとapp-pipeline/build_outpにはかれる
+artifacts:
+  files:
+    - service/**/*
+  base-directory: ./
