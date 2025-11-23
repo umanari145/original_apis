@@ -1,0 +1,18 @@
+name: Deploy to LightSail
+
+on:
+  push:
+    branches:
+      - main # プッシュを監視するブランチ
+
+jobs:
+  test: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: dokcer-compose 
+        run: |
+          docker compose -f docker-compose-ci.yaml up -d
+      - name: jest
+        run: |
+          docker exec -i o_apis_srv bash test_script.sh
