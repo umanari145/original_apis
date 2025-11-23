@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /opt/bitnami/app
+
+permissions:
+  - object: /opt/bitnami/app
+    owner: bitnami
+    group: bitnami
+
+hooks:
+  AfterInstall:
+    - location: ./install.sh
+      timeout: 60
+      runas: bitnami
