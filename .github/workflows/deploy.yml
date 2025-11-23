@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: dokcer-compose 
         run: |
-          docker compose -f docker-compose-ci.yaml up -d
+          docker compose -f docker-compose-ci.yml up -d
       - name: jest
         run: |
           docker exec -i o_apis_srv bash test_script.sh
