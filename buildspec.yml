@@ -3,8 +3,9 @@ version: 0.2
 phases:
   build:
     commands:
-      - echo "Building front..."
-# ここに設定するとapp-pipeline/build_outpにはかれる
+      - echo "Download .env.production to .env"
+      - aws s3 cp s3://original-apis/.env.production .env
+
 artifacts:
   files:
     - service/**/*
