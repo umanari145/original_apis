@@ -257,3 +257,36 @@ gh secret set AWS_ACCESS_KEY_ID --body "$AWS_ACCESS_KEY_ID" --repo umanari145/or
 gh secret set AWS_SECRET_ACCESS_KEY --body "$AWS_SECRET_ACCESS_KEY" --repo umanari145/original_apis
 gh secret set AWS_REGION --body "$AWS_REGION" --repo umanari145/original_apis
 ```
+
+### VPSサーバーでの環境構築
+
+```
+1. プロセス・マネージャー: PM2
+最も一般的で推奨されるのは、PM2 (Process Manager 2)のようなプロセス・マネージャーです。
+
+PM2の主な機能と利点
+自動再起動: アプリケーションがクラッシュしたり、予期せず終了したりした場合に、自動的に再起動します。
+
+永続化: サーバーが再起動した後も、アプリケーションを自動で立ち上げ直す設定（startupコマンド）が可能です。
+
+ロギング: ログの収集と管理を簡単に行えます。
+
+クラスタリング: 複数のCPUコアを最大限に活用するために、アプリケーションをクラスタモードで実行し、負荷分散を行うことができます。
+
+PM2の使用例
+インストール: npm install -g pm2
+
+起動: pm2 start your_app.js
+
+状態確認: pm2 status
+
+永続化設定: pm2 save の後、pm2 startup を実行し、表示されたコマンドを実行します。
+```
+
+```
+#　インストール
+npm install pm2 -g
+
+# 起動
+pm2 start dist/server.js
+```
