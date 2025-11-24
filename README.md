@@ -251,7 +251,9 @@ sudo n stable
 ### 環境変数
 gh auth login
 ブラウザで認証後
+```
 source aws_configure.txt
 gh secret set AWS_ACCESS_KEY_ID --body "$AWS_ACCESS_KEY_ID" --repo umanari145/original_apis
 gh secret set AWS_SECRET_ACCESS_KEY --body "$AWS_SECRET_ACCESS_KEY" --repo umanari145/original_apis
 gh secret set AWS_REGION --body "$AWS_REGION" --repo umanari145/original_apis
+```
