@@ -238,16 +238,10 @@ jestは効率アップのために複数のテストを並列に実行する。<
 "jest --runInBand",
 
 
-### debian系へのlastesのnodeのインストール
-LAMP環境のlightsailに登録
-```
-sudo apt install -y nodejs npm
+## GitHubActions
 
-sudo npm install n -g
-
-sudo n stable
-```
-
+test・・docker-compose-ci.ymlを使ってjestを走らせ全てOKになることを確認
+deploy・・AWSアカウントを使いCodePipelineを起動
 ### 環境変数
 gh auth login
 ブラウザで認証後
@@ -258,6 +252,50 @@ gh secret set AWS_SECRET_ACCESS_KEY --body "$AWS_SECRET_ACCESS_KEY" --repo umana
 gh secret set AWS_REGION --body "$AWS_REGION" --repo umanari145/original_apis
 ```
 
+## CodePipeline
+IaCは`https://github.com/umanari145/original_apis_infra`に格納
+
+具体的な設定は↑のサイトを。
+
+Source・・GitHubとAWSの連動。成果物がS3に保存される。
+Build・・build時にbuildspec.ymlが動いてbuildが働き成果物がS3に保存。(今回はinstall.shで実行されるためあまり仕事をしていない)
+Deploy・・deploy時にservice/appspec.ymlが動いて、デプロイ先とデプロイ時のシェル(install.sh)を記載しておく
+
+## 本番環境での作業
+### debian系へのlastesのnodeのインストール
+LAMP環境のlightsailに登録
+```
+sudo apt install -y nodejs npm
+
+sudo npm install n -g
+
+sudo n stable
+```
+
+### Apacheでのリバースプロキシ
+http(80)、https(443)で受け付けているので、リバースプロキシを使って内部で3000に飛ばす
+```
+<VirtualHost _default_:443>
+  DocumentRoot "/opt/bitnami/apache/htdocs"
+  SSLEngine on
+  SSLCertificateFile "/opt/bitnami/apache/conf/bitnami/certs/server.crt"
+  SSLCertificateKeyFile "/opt/bitnami/apache/conf/bitnami/certs/server.key"
+
+ +ProxyPreserveHost On
+ +ProxyPass / http://localhost:3000/
+ +ProxyPassReverse / http://localhost:3000/
+
+  <Directory "/opt/bitnami/apache/htdocs">
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+  </Directory>
+
+  # Error Documents
+  ErrorDocument 503 /503.html
+</VirtualHost>
+
+```
 ### VPSサーバーでの環境構築
 
 ```
@@ -283,6 +321,7 @@ PM2の使用例
 永続化設定: pm2 save の後、pm2 startup を実行し、表示されたコマンドを実行します。
 ```
 
+実際のサーバーの起動
 ```
 #　インストール
 npm install pm2 -g
