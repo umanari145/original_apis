@@ -49,7 +49,7 @@ router.get('/cities/:cityCode/towns', cityController.getTownsByCityCode);
  * @query   zip &keyword
  * @access  Public
  */
-//router.get('/towns', cityController.getCityByQuery);
+router.get('/towns', cityController.getCityByQuery);
 
 
 export default router;
