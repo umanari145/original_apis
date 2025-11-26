@@ -3,4 +3,4 @@
 set -eux
 cd /opt/bitnami/app
 npx prisma migrate dev
-npm run start
+pm2 restart dist/server.js
