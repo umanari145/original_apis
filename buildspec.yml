@@ -1,6 +1,10 @@
 version: 0.2
 
 phases:
+  install:
+    runtime-versions:
+      nodejs: 24
+
   build:
     commands:
       - echo "Download .env.production to .env"
