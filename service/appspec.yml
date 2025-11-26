@@ -3,6 +3,7 @@ os: linux
 files:
   - source: /
     destination: /opt/bitnami/app
+    overwrite: true
 
 permissions:
   - object: /opt/bitnami/app
@@ -14,3 +15,7 @@ hooks:
     - location: ./install.sh
       timeout: 60
       runas: bitnami
+  ApplicationStart:
+    - location: ./appstart.sh
+      timeout: 60
+      runas: root
