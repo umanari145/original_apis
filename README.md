@@ -257,8 +257,8 @@ IaCは`https://github.com/umanari145/original_apis_infra`に格納<br>
 
 具体的な設定は↑のサイトを。
 <br>
-Source・・GitHubとAWSの連動。成果物がS3にsource_outputととして保存される。<br>
-Build・・build時にbuildspec.ymlが動いてbuildが働き成果物がS3に保存。(今回はinstall.shで実行されるためあまり仕事をしていない)<br>
+Source・・GitHubとAWSの連動。成果物がS3にsource_outputととして保存される。unzipで普通に回答できる<br>
+Build・・build時にbuildspec.ymlが動いてbuildが働き成果物がS3に保存。(source同様、zipで固めている。今回はinstall.shで実行されるためあまり仕事をしていない)<br>
 Deploy・・deploy時にservice/appspec.ymlが動いて、デプロイ先とデプロイ時のシェル(install.sh)を記載しておく
 
 ## 本番環境での作業
