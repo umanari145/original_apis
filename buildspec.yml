@@ -12,6 +12,7 @@ phases:
       - echo "npm install"
       - cd service
       - npm install 
+      - npm run build
 
 artifacts:
   files:
