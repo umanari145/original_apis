@@ -1,10 +1,6 @@
 version: 0.2
 
 phases:
-  build:
-    commands:
-      - echo "Download .env.production to .env"
-      - aws s3 cp s3://original-apis/.env.production ../service/.env
 
 artifacts:
   files:

@@ -257,7 +257,7 @@ IaCは`https://github.com/umanari145/original_apis_infra`に格納<br>
 
 具体的な設定は↑のサイトを。
 <br>
-Source・・GitHubとAWSの連動。成果物がS3に保存される。<br>
+Source・・GitHubとAWSの連動。成果物がS3にsource_outputととして保存される。<br>
 Build・・build時にbuildspec.ymlが動いてbuildが働き成果物がS3に保存。(今回はinstall.shで実行されるためあまり仕事をしていない)<br>
 Deploy・・deploy時にservice/appspec.ymlが動いて、デプロイ先とデプロイ時のシェル(install.sh)を記載しておく
 
@@ -266,9 +266,7 @@ Deploy・・deploy時にservice/appspec.ymlが動いて、デプロイ先とデ�
 LAMP環境のlightsailに登録
 ```
 sudo apt install -y nodejs npm
-
 sudo npm install n -g
-
 sudo n stable
 ```
 
@@ -296,29 +294,19 @@ http(80)、https(443)で受け付けているので、リバースプロキシ�
 </VirtualHost>
 
 ```
-### VPSサーバーでの環境構築
+### 本番サーバーでの環境構築
+
+npm run startでは永続的な起動方法にならないので、常駐化させるサービスを検討する必要がある。
 
 ```
 1. プロセス・マネージャー: PM2
-最も一般的で推奨されるのは、PM2 (Process Manager 2)のようなプロセス・マネージャーです。
-
-PM2の主な機能と利点
-自動再起動: アプリケーションがクラッシュしたり、予期せず終了したりした場合に、自動的に再起動します。
-
-永続化: サーバーが再起動した後も、アプリケーションを自動で立ち上げ直す設定（startupコマンド）が可能です。
-
-ロギング: ログの収集と管理を簡単に行えます。
-
-クラスタリング: 複数のCPUコアを最大限に活用するために、アプリケーションをクラスタモードで実行し、負荷分散を行うことができます。
+プログラムを常駐化させるサービスで、supervisorに近い。
 
 PM2の使用例
 インストール: npm install -g pm2
 
-起動: pm2 start your_app.js
+起動例: pm2 start your_app.js(今回はnodeのエントリーポイントのファイルがここになる。)
 
-状態確認: pm2 status
-
-永続化設定: pm2 save の後、pm2 startup を実行し、表示されたコマンドを実行します。
 ```
 
 実際のサーバーの起動
@@ -329,3 +317,11 @@ npm install pm2 -g
 # 起動
 pm2 start dist/server.js
 ```
+
+他にnodemonという選択肢も・・・
+```
+nodemon・・開発中のアプリケーションの変更を検知して自動的に再起動させる仕組み。expressの標準の開発ツールにも入っている。
+```
+
+
+https://npm-compare.com/ja-JP/forever,nodemon,pm2
