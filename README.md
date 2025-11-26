@@ -316,6 +316,9 @@ npm install pm2 -g
 
 # 起動
 pm2 start dist/server.js
+
+# 再起動
+pm2 reload dist/server.js
 ```
 
 他にnodemonという選択肢も・・・

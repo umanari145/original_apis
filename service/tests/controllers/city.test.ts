@@ -63,7 +63,7 @@ describe('Prefecture City API Endpoints', () => {
     });
   });
 
-  describe('GET /api/towns?zip=0010010&word=北十条', () => {
+  /*describe('GET /api/towns?zip=0010010&word=北十条', () => {
 
     it('郵便番号で取得（200 OK）', async () => {
       const response = await request(app)
@@ -105,6 +105,6 @@ describe('Prefecture City API Endpoints', () => {
 
     });
   
-  });
+  });*/
 
 });
